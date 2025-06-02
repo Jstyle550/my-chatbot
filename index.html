@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+  <title>簡易チャットボット</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 2em auto; }
+    #chat { border: 1px solid #ccc; padding: 1em; height: 300px; overflow-y: scroll; }
+    input { width: 100%; padding: 1em; }
+  </style>
+</head>
+<body>
+  <h2>ロボにぃが答えます！</h2>
+  <div id="chat"></div>
+  <input id="userInput" placeholder="質問を入力..." />
+
+  <script>
+    const faqData = {
+      "サポート料金": "サポート料金は月額5,000円です。",
+      "退会方法": "マイページの「退会」ボタンをクリックしてください。"
+    };
+
+    const chat = document.getElementById("chat");
+    const input = document.getElementById("userInput");
+
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        const userText = input.value;
+        input.value = "";
+        chat.innerHTML += `<p><b>あなた:</b> ${userText}</p>`;
+        let found = false;
+        for (const key in faqData) {
+          if (userText.includes(key)) {
+            chat.innerHTML += `<p><b>Bot:</b> ${faqData[key]}</p>`;
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          chat.innerHTML += `<p><b>ロボにぃ:</b> すみません、その質問にはまだ答えられません。</p>`;
+        }
+        chat.scrollTop = chat.scrollHeight;
+      }
+    });
+  </script>
+</body>
+</html>
